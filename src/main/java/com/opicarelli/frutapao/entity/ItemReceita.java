@@ -41,7 +41,9 @@ public class ItemReceita implements Serializable {
 
 	@Transient
 	public BigDecimal getCustoMedio() {
-		return itemEstoque.getPrecoMedio().multiply(new BigDecimal(quantidade));
+		BigDecimal multiplicand = new BigDecimal(quantidade).setScale(3, BigDecimal.ROUND_HALF_DOWN);
+		BigDecimal result = itemEstoque.getPrecoMedio().multiply(multiplicand);
+		return result.setScale(2, BigDecimal.ROUND_HALF_DOWN);
 	}
 
 	public Long getId() {

@@ -66,4 +66,9 @@ public class Receita implements Serializable {
 		this.items = items;
 	}
 
+	public void addItem(ItemReceita item) {
+		item.setReceita(this);
+		items.add(item);
+	}
+
 }

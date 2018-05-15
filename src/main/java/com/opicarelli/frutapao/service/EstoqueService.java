@@ -37,7 +37,8 @@ public class EstoqueService {
 		entrada.setItemEstoque(itemEstoque);
 		entrada.setQuantidade(quantidade);
 		entrada.setValorUnitario(valorUnitario);
-		BigDecimal valorTotal = valorUnitario.multiply(new BigDecimal(quantidade));
+		BigDecimal multiplicand = new BigDecimal(quantidade).setScale(3, BigDecimal.ROUND_HALF_DOWN);
+		BigDecimal valorTotal = valorUnitario.multiply(multiplicand);
 		entrada.setValorTotal(valorTotal);
 		entrada.setDataValidade(dataValidade);
 		entrada.setData(new Date());
@@ -57,12 +58,12 @@ public class EstoqueService {
 			Double quantidadeTotal = Double.valueOf(0);
 			for (ItemEntrada itemEntrada : entradas) {
 				Double quantidadeRestante = itemEntrada.getQuantidade();
-				BigDecimal quantidadeRestanteBigDecimal = new BigDecimal(quantidadeRestante);
+				BigDecimal quantidadeRestanteBigDecimal = new BigDecimal(quantidadeRestante).setScale(3, BigDecimal.ROUND_HALF_DOWN);
 				BigDecimal valorTotalRestante = itemEntrada.getValorUnitario().multiply(quantidadeRestanteBigDecimal);
 				valorTotal = valorTotal.add(valorTotalRestante);
 				quantidadeTotal += quantidadeRestante;
 			}
-			BigDecimal quantidadeTotalBigDecimal = new BigDecimal(quantidadeTotal);
+			BigDecimal quantidadeTotalBigDecimal = new BigDecimal(quantidadeTotal).setScale(3, BigDecimal.ROUND_HALF_DOWN);
 			precoMedio = valorTotal.divide(quantidadeTotalBigDecimal, 2, BigDecimal.ROUND_HALF_DOWN);
 		}
 		ItemEstoque itemEstoque = itemEstoqueRepository.findOne(idItemEstoque);
@@ -81,5 +82,9 @@ public class EstoqueService {
 
 	public ItemEstoque findItemEstoque(Long id) {
 		return itemEstoqueRepository.findOne(id);
+	}
+
+	public ItemEstoque findItemEstoqueByNome(String nome) {
+		return itemEstoqueRepository.findItemEstoqueByNome(nome);
 	}
 }
