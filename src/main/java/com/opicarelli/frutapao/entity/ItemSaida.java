@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class ItemSaida implements Serializable {
@@ -25,6 +27,7 @@ public class ItemSaida implements Serializable {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_item_saida_item_estoque"))
 	private ItemEstoque item;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date data;
 

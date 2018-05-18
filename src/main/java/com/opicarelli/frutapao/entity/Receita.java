@@ -26,7 +26,7 @@ public class Receita implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_receita_produto_gerado"))
 	private Produto produtoGerado;
 

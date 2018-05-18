@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class ItemEntrada implements Serializable {
@@ -35,6 +37,7 @@ public class ItemEntrada implements Serializable {
 	@Column(nullable = false, scale = 2, precision = 11)
 	private BigDecimal valorUnitario;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date data;
 

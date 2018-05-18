@@ -1,4 +1,5 @@
 package com.opicarelli.frutapao;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -13,7 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @SpringBootConfiguration
 @ComponentScan("com.opicarelli.frutapao")
-@EnableJpaRepositories("com.opicarelli.frutapao")
+@EnableJpaRepositories("com.opicarelli.frutapao.repository")
 public class FrutapaoConfiguration {
 
 	@Bean
@@ -24,7 +25,7 @@ public class FrutapaoConfiguration {
 
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan("com.opicarelli.frutapao");
+		factory.setPackagesToScan("com.opicarelli.frutapao.entity");
 		factory.setDataSource(dataSource());
 		factory.afterPropertiesSet();
 

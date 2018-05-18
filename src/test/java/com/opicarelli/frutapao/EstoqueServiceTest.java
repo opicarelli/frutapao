@@ -1,14 +1,12 @@
 package com.opicarelli.frutapao;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.hamcrest.Matchers;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.opicarelli.frutapao.dto.ItemReceitaDto;
 import com.opicarelli.frutapao.entity.ItemEstoque;
 import com.opicarelli.frutapao.entity.ItemReceita;
-import com.opicarelli.frutapao.entity.Produto;
 import com.opicarelli.frutapao.entity.Receita;
 import com.opicarelli.frutapao.entity.UnidadeMedida;
 import com.opicarelli.frutapao.service.EstoqueService;
@@ -140,50 +138,39 @@ public class EstoqueServiceTest {
 
 	@Test
 	public void test4_criaReceita() {
-		// TODO Levar implementacao para servico criaReceita
-		Receita receitaPaoIntegralMultiGrao = new Receita();
-		Produto produtoGerado = new Produto();
-		produtoGerado.setNome("Pao integral multigrao");
-		receitaPaoIntegralMultiGrao.setProdutoGerado(produtoGerado);
+
+		List<ItemReceitaDto> items = new ArrayList<>();
+		items.add(service.criaItemReceitaDto(service.findItemEstoqueByNome("Farinha integral").getId(), 0.550, 1));
+		items.add(service.criaItemReceitaDto(service.findItemEstoqueByNome("Linhaca marrom").getId(), 0.005, 2));
+		items.add(service.criaItemReceitaDto(service.findItemEstoqueByNome("Semente girassol").getId(), 0.030, 3));
+		items.add(service.criaItemReceitaDto(service.findItemEstoqueByNome("Aveia em flocos").getId(), 0.120, 4));
+		Receita receita = service.criaReceita("Pao integral multigrao", UnidadeMedida.KG, 0.450, items);
+
+		Assert.assertNotNull(receita);
+		Assert.assertNotNull(receita.getProdutoGerado());
+		Assert.assertEquals("Pao integral multigrao", receita.getProdutoGerado().getNome());
 
 		// 550g Farinha integral
-		ItemEstoque itemEstoqueFarinhaIntegral = service.findItemEstoqueByNome("Farinha integral");
-		ItemReceita itemReceitaFarinhaIntegral = new ItemReceita();
-		itemReceitaFarinhaIntegral.setOrdem(1);
-		itemReceitaFarinhaIntegral.setItemEstoque(itemEstoqueFarinhaIntegral);
-		itemReceitaFarinhaIntegral.setQuantidade(0.550);
-		receitaPaoIntegralMultiGrao.addItem(itemReceitaFarinhaIntegral);
+		ItemReceita itemReceita = receita.getItems().stream().filter(i -> i.getOrdem().equals(1)).findFirst().get();
 		Assert.assertThat(new BigDecimal(1.37).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-				Matchers.comparesEqualTo(itemReceitaFarinhaIntegral.getCustoMedio()));
+				Matchers.comparesEqualTo(itemReceita.getCustoMedio()));
 
 		// 5g Linhaca marrom
-		ItemEstoque itemEstoqueLinhacaMarrom = service.findItemEstoqueByNome("Linhaca marrom");
-		ItemReceita itemReceitaLinhacaMarrom = new ItemReceita();
-		itemReceitaLinhacaMarrom.setOrdem(2);
-		itemReceitaLinhacaMarrom.setItemEstoque(itemEstoqueLinhacaMarrom);
-		itemReceitaLinhacaMarrom.setQuantidade(0.005);
-		receitaPaoIntegralMultiGrao.addItem(itemReceitaLinhacaMarrom);
+		itemReceita = receita.getItems().stream().filter(i -> i.getOrdem().equals(2)).findFirst().get();
 		Assert.assertThat(new BigDecimal(0.03).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-				Matchers.comparesEqualTo(itemReceitaLinhacaMarrom.getCustoMedio()));
+				Matchers.comparesEqualTo(itemReceita.getCustoMedio()));
 
-		// 30g Semente girassol
-		ItemEstoque itemEstoqueSementeGirassol = service.findItemEstoqueByNome("Semente girassol");
-		ItemReceita itemReceitaSementeGirassol = new ItemReceita();
-		itemReceitaSementeGirassol.setOrdem(3);
-		itemReceitaSementeGirassol.setItemEstoque(itemEstoqueSementeGirassol);
-		itemReceitaSementeGirassol.setQuantidade(0.030);
-		receitaPaoIntegralMultiGrao.addItem(itemReceitaSementeGirassol);
+		// 5g Linhaca marrom
+		itemReceita = receita.getItems().stream().filter(i -> i.getOrdem().equals(3)).findFirst().get();
 		Assert.assertThat(new BigDecimal(0.49).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-				Matchers.comparesEqualTo(itemReceitaSementeGirassol.getCustoMedio()));
+				Matchers.comparesEqualTo(itemReceita.getCustoMedio()));
 
 		// 120g Aveia em flocos
-		ItemEstoque itemEstoqueAveiaEmFlocos = service.findItemEstoqueByNome("Aveia em flocos");
-		ItemReceita itemReceitaAveiaEmFlocos = new ItemReceita();
-		itemReceitaAveiaEmFlocos.setOrdem(4);
-		itemReceitaAveiaEmFlocos.setItemEstoque(itemEstoqueAveiaEmFlocos);
-		itemReceitaAveiaEmFlocos.setQuantidade(0.120);
-		receitaPaoIntegralMultiGrao.addItem(itemReceitaAveiaEmFlocos);
+		itemReceita = receita.getItems().stream().filter(i -> i.getOrdem().equals(4)).findFirst().get();
 		Assert.assertThat(new BigDecimal(1.02).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-				Matchers.comparesEqualTo(itemReceitaAveiaEmFlocos.getCustoMedio()));
+				Matchers.comparesEqualTo(itemReceita.getCustoMedio()));
+		
+		Assert.assertThat(new BigDecimal(2.91).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+				Matchers.comparesEqualTo(receita.getCustoMedioMateriaPrima()));
 	}
 }

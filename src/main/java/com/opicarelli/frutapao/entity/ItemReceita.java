@@ -32,7 +32,7 @@ public class ItemReceita implements Serializable {
 	@Column(nullable = false)
 	private Integer ordem;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String descricao;
 
 	@ManyToOne(optional = false)

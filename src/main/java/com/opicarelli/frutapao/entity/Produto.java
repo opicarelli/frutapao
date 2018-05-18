@@ -16,7 +16,7 @@ public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false)
@@ -25,6 +25,9 @@ public class Produto implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private UnidadeMedida unidadeMedida;
+
+	@Column(nullable = false)
+	private Double peso;
 
 	public Long getId() {
 		return id;
@@ -48,6 +51,14 @@ public class Produto implements Serializable {
 
 	public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
 		this.unidadeMedida = unidadeMedida;
+	}
+
+	public Double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(Double peso) {
+		this.peso = peso;
 	}
 
 }
