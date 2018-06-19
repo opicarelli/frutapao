@@ -37,10 +37,10 @@ public class CardapioSemanal implements Serializable {
 	@Column(nullable = false)
 	private Date data;
 
-	@OneToMany(mappedBy = "cardapio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cardapio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ItemCardapioSemanal> items = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cardapio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cardapio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ComboCardapioSemanal> combos = new ArrayList<>();
 
 	public Long getId() {

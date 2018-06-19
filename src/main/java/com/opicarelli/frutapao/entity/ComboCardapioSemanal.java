@@ -30,7 +30,7 @@ public class ComboCardapioSemanal implements Serializable {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_combo_cardapio_semanal_cardapio"))
 	private CardapioSemanal cardapio;
 
-	@OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ItemComboCardapioSemanal> items = new ArrayList<>();
 
 	@Column(nullable = false, scale = 2, precision = 11)
