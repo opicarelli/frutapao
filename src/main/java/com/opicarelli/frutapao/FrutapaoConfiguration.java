@@ -37,4 +37,5 @@ public class FrutapaoConfiguration {
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 		return builder.setType(EmbeddedDatabaseType.H2).build();
 	}
+
 }
