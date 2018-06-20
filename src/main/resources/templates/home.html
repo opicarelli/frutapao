@@ -12,17 +12,16 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/bootstrap-4.1.1/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="/app/css/app.css" rel="stylesheet" type="text/css" />
 
   </head>
 
   <body>
 
-    <div th:include="fragments/header :: header"></div>
+    <header th:include="fragments/header :: header"></header>
 
     <main role="main" class="container">
-      <div class="page-header">
-        <h1 th:text="#{home.titulo}"></h1>
-      </div>
+      <h1 class="mt-5" th:text="#{home.titulo}"></h1>
     </main>
 
     <div th:include="fragments/footer :: footer"></div>
